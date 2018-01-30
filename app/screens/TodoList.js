@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { connect } from 'react-redux'
 import { View } from 'react-native'
 
 import List from '../components/List/index'
@@ -8,39 +8,26 @@ import Title from '../components/Title/index'
 
 import { actionCreators } from '../actions/todoActions'
 
-export default class TodoList extends Component {
-  state = {}
+const mapStateToProps = (state) => ({
+  todos: state.todos,
+})
 
-  componentWillMount() {
-    const {store} = this.props
-
-    const {todos} = store.getState()
-    this.setState({todos})
-
-    this.unsubscribe = store.subscribe(() => {
-      const {todos} = store.getState()
-      this.setState({todos})
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
+class TodoList extends Component {
 
   onAddTodo = (text) => {
-    const {store} = this.props
+    const { dispatch } = this.props
 
-    store.dispatch(actionCreators.add(text))
+    dispatch(actionCreators.add(text))
   }
 
   onRemoveTodo = (index) => {
-    const {store} = this.props
+    const { dispatch } = this.props
 
     store.dispatch(actionCreators.remove(index))
   }
 
   render() {
-    const {todos} = this.state
+    const {todos} = this.props
 
     return (
       <View>
@@ -59,3 +46,5 @@ export default class TodoList extends Component {
     )
   }
 }
+
+export default connect(mapStateToProps)(TodoList)

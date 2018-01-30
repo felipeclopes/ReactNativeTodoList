@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 
 import { AppRegistry } from 'react-native'
+import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+
 import { initialState } from './app/config/store'
 
 // Import the reducer and create a store
@@ -16,7 +18,9 @@ const store = createStore(reducer, initialState)
 export default class App extends Component {
   render() {
     return (
-      <TodoList store={store} />
+      <Provider store={store} >
+        <TodoList />
+      </Provider>
     )
   }
 }
